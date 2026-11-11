@@ -4299,6 +4299,15 @@ body {
     position: relative
 }
 
+.hero-inner::before {
+    content: "";
+    position: absolute;
+    inset: -3.5rem -2.5rem -2rem;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, rgba(250, 246, 240, .78) 0%, rgba(250, 246, 240, .5) 45%, rgba(250, 246, 240, 0) 72%);
+    pointer-events: none
+}
+
 .hero-names {
     margin: 0;
     font-size: clamp(2.25rem, 13vw, 4rem);
