@@ -27336,7 +27336,14 @@ END:VCALENDAR`,
                             number_of_guests: att === "yes" ? count : 1,
                             primary_meal: null,
                             primary_dietary: null,
-                            companions: [],
+                            companions: att === "yes" ? Array.from({
+                                length: count - 1
+                            }, (_, k) => ({
+                                type: "adult",
+                                full_name: "Guest " + (k + 2) + " (with " + name.trim() + ")",
+                                dietary: null,
+                                meal: "meat"
+                            })) : [],
                             message: msg.trim() || null
                         }
                     });
