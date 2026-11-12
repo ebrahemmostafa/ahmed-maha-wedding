@@ -15847,65 +15847,184 @@ Error generating stack: ` + o.message + `
             })
         },
         FT = "assets/images/fountain-divider-D0BcDnvR.png",
+        useReveal = () => {
+            w.useEffect(() => {
+                const els = document.querySelectorAll(".reveal:not(.reveal-in)");
+                if (!("IntersectionObserver" in window)) {
+                    els.forEach(el => el.classList.add("reveal-in"));
+                    return
+                }
+                const io = new IntersectionObserver(entries => entries.forEach(en => {
+                    en.isIntersecting && (en.target.classList.add("reveal-in"), io.unobserve(en.target))
+                }), {
+                    threshold: .15
+                });
+                return els.forEach(el => io.observe(el)), () => io.disconnect()
+            }, [])
+        },
+        Ico = ({
+            d,
+            className: c
+        }) => g.jsx("svg", {
+            className: c,
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            strokeWidth: 1.5,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            children: d.map((x, k) => g.jsx("path", {
+                d: x
+            }, k))
+        }),
+        addToCalendar = () => {
+            const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", "DTSTART:20261218T140000Z", "DTEND:20261218T200000Z", "SUMMARY:Ahmed & Maha - Wedding", "LOCATION:Hilton Pyramids Golf - The Greenery", "END:VEVENT", "END:VCALENDAR"].join("\r\n"),
+                a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([ics], {
+                type: "text/calendar;charset=utf-8"
+            })), a.download = "ahmed-maha-wedding.ics", document.body.appendChild(a), a.click(), document.body.removeChild(a)
+        },
         UT = () => {
             const {
                 t: i
             } = Mr();
-            return g.jsx("section", {
+            useReveal();
+            return g.jsxs("section", {
                 id: "story",
-                className: "py-20 md:py-32 bg-wedding-cream",
-                children: g.jsxs("div", {
-                    className: "container mx-auto px-6 max-w-3xl text-center animate-fade-in",
+                className: "story-section bg-wedding-cream",
+                children: [g.jsx("span", {
+                    className: "petal petal-1"
+                }), g.jsx("span", {
+                    className: "petal petal-2"
+                }), g.jsx("span", {
+                    className: "petal petal-3"
+                }), g.jsx("span", {
+                    className: "petal petal-4"
+                }), g.jsxs("div", {
+                    className: "story-wrap",
                     children: [g.jsx("p", {
-                        className: "font-script text-4xl md:text-5xl text-wedding-olive mb-6",
+                        className: "font-script story-line1 reveal",
                         children: i.story.line1
                     }), g.jsx("p", {
-                        className: "font-serif italic font-semibold text-xl md:text-2xl text-wedding-accent leading-relaxed",
+                        className: "story-line2 reveal",
+                        style: {
+                            transitionDelay: ".15s"
+                        },
                         children: i.story.line2
                     }), g.jsxs("div", {
-                        className: "mt-12 space-y-6",
+                        className: "story-ornament reveal",
+                        style: {
+                            transitionDelay: ".25s"
+                        },
+                        children: [g.jsx("span", {}), g.jsx("i", {
+                            children: "✦"
+                        }), g.jsx("span", {})]
+                    }), g.jsxs("div", {
+                        className: "when-grid",
                         children: [g.jsxs("div", {
-                            className: "flex items-center justify-center gap-4 mb-12",
-                            children: [g.jsx("div", {
-                                className: "h-px w-16 bg-wedding-accent/30"
+                            className: "info-card date-card reveal",
+                            children: [g.jsxs("div", {
+                                className: "cal-rings",
+                                children: [g.jsx("span", {}), g.jsx("span", {})]
                             }), g.jsx("div", {
-                                className: "w-2 h-2 bg-wedding-accent rounded-full"
-                            }), g.jsx("div", {
-                                className: "h-px w-16 bg-wedding-accent/30"
+                                className: "cal-top",
+                                children: "December"
+                            }), g.jsxs("div", {
+                                className: "cal-body",
+                                children: [g.jsx("div", {
+                                    className: "cal-day",
+                                    children: "18"
+                                }), g.jsx("div", {
+                                    className: "cal-week",
+                                    children: "Friday · 2026"
+                                })]
+                            }), g.jsxs("button", {
+                                type: "button",
+                                onClick: addToCalendar,
+                                className: "card-link",
+                                children: [g.jsx(Ico, {
+                                    className: "card-link-ico",
+                                    d: ["M8 2v4", "M16 2v4", "M3 10h18", "M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z", "M12 14v4", "M10 16h4"]
+                                }), "Add to calendar"]
                             })]
                         }), g.jsxs("div", {
-                            children: [g.jsx("p", {
-                                className: "font-serif italic font-semibold text-xl md:text-2xl text-wedding-accent mb-1",
-                                children: i.story.dateLabel
-                            }), g.jsx("p", {
-                                className: "font-serif text-2xl text-wedding-olive",
-                                children: i.story.date
-                            })]
-                        }), g.jsxs("div", {
-                            children: [g.jsx("p", {
-                                className: "font-serif italic font-semibold text-xl md:text-2xl text-wedding-accent mb-1",
+                            className: "info-card time-card reveal",
+                            style: {
+                                transitionDelay: ".15s"
+                            },
+                            children: [g.jsxs("div", {
+                                className: "clock",
+                                children: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(k => g.jsx("span", {
+                                    className: "clock-tick",
+                                    style: {
+                                        transform: "rotate(" + k * 30 + "deg)"
+                                    }
+                                }, k)), g.jsx("span", {
+                                    className: "clock-hand clock-hour"
+                                }), g.jsx("span", {
+                                    className: "clock-hand clock-min"
+                                }), g.jsx("span", {
+                                    className: "clock-dot"
+                                })]
+                            }), g.jsx("div", {
+                                className: "card-label",
                                 children: i.story.timeLabel
-                            }), g.jsx("p", {
-                                className: "font-serif text-2xl text-wedding-olive",
+                            }), g.jsx("div", {
+                                className: "time-value",
                                 children: i.story.time
+                            }), g.jsx("div", {
+                                className: "card-note",
+                                children: "Friday afternoon"
+                            })]
+                        })]
+                    }), g.jsxs("div", {
+                        className: "info-card venue-card reveal",
+                        style: {
+                            transitionDelay: ".2s"
+                        },
+                        children: [g.jsxs("div", {
+                            className: "venue-photo",
+                            children: [g.jsx("img", {
+                                src: "assets/images/venue-garden.jpg",
+                                alt: "Garden wedding setting with floral arches and chandeliers",
+                                loading: "lazy"
+                            }), g.jsx("div", {
+                                className: "venue-pin",
+                                children: g.jsx(Ico, {
+                                    className: "venue-pin-ico",
+                                    d: ["M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z", "M12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"]
+                                })
                             })]
                         }), g.jsxs("div", {
-                            children: [g.jsx("p", {
-                                className: "font-serif italic font-semibold text-xl md:text-2xl text-wedding-accent mb-1",
+                            className: "venue-body",
+                            children: [g.jsx("div", {
+                                className: "card-label",
                                 children: i.story.locationLabel
-                            }), g.jsx("p", {
-                                className: "font-serif text-2xl text-wedding-olive",
-                                children: i.story.location
+                            }), g.jsx("div", {
+                                className: "venue-name",
+                                children: "Hilton Pyramids Golf"
+                            }), g.jsxs("div", {
+                                className: "venue-sub",
+                                children: [g.jsx("span", {
+                                    className: "leaf",
+                                    children: "❦"
+                                }), " The Greenery ", g.jsx("span", {
+                                    className: "leaf leaf-flip",
+                                    children: "❦"
+                                })]
+                            }), g.jsxs("a", {
+                                href: i.story.mapUrl,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                className: "map-btn",
+                                children: [g.jsx(Ico, {
+                                    className: "map-btn-ico",
+                                    d: ["M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z", "M9 3v15", "M15 6v15"]
+                                }), i.story.openMap]
                             })]
-                        }), g.jsx("a", {
-                            href: i.story.mapUrl,
-                            target: "_blank",
-                            rel: "noopener noreferrer",
-                            className: "inline-flex items-center gap-2 mt-2 px-6 py-2 rounded-full border border-wedding-olive/40 text-wedding-olive text-sm tracking-wider hover:bg-wedding-olive hover:text-white transition-colors",
-                            children: i.story.openMap
                         })]
                     })]
-                })
+                })]
             })
         },
         WeddingCountdown = () => {
@@ -15971,7 +16090,7 @@ Error generating stack: ` + o.message + `
                         className: "dress-sub",
                         children: "We'd love for you to dress in our garden palette"
                     }), g.jsxs("div", {
-                        className: "dress-card",
+                        className: "dress-card reveal",
                         children: [g.jsx("p", {
                             className: "dress-who",
                             children: "Ladies"
@@ -15981,7 +16100,7 @@ Error generating stack: ` + o.message + `
                         }), g.jsx("div", {
                             className: "dress-swatches",
                             children: palette.map(([n, c]) => g.jsxs("div", {
-                                className: "dress-swatch",
+                                className: "dress-swatch swatch-pop",
                                 children: [g.jsx("span", {
                                     className: "dress-dot",
                                     style: {
@@ -15994,7 +16113,7 @@ Error generating stack: ` + o.message + `
                             }, n))
                         })]
                     }), g.jsxs("div", {
-                        className: "dress-card",
+                        className: "dress-card reveal",
                         children: [g.jsx("p", {
                             className: "dress-who",
                             children: "Gentlemen"
@@ -16004,7 +16123,7 @@ Error generating stack: ` + o.message + `
                         }), g.jsx("div", {
                             className: "dress-swatches",
                             children: g.jsxs("div", {
-                                className: "dress-swatch",
+                                className: "dress-swatch swatch-pop",
                                 children: [g.jsx("span", {
                                     className: "dress-dot",
                                     style: {
@@ -16017,7 +16136,7 @@ Error generating stack: ` + o.message + `
                             })
                         })]
                     }), g.jsxs("div", {
-                        className: "adults-note",
+                        className: "adults-note reveal",
                         children: [g.jsx("span", {
                             className: "adults-star",
                             children: "✦"
@@ -27194,6 +27313,183 @@ END:VCALENDAR`,
             })
         })
     },
+    SimpleRsvp = () => {
+        const [name, setName] = w.useState(""),
+            [att, setAtt] = w.useState(""),
+            [count, setCount] = w.useState(1),
+            [msg, setMsg] = w.useState(""),
+            [busy, setBusy] = w.useState(!1),
+            [err, setErr] = w.useState(""),
+            [done, setDone] = w.useState(""),
+            submit = async ev => {
+                if (ev.preventDefault(), setErr(""), !name.trim()) return setErr("Please write your name");
+                if (!att) return setErr("Please let us know if you'll attend");
+                setBusy(!0);
+                try {
+                    const {
+                        error: E
+                    } = await bA.functions.invoke("submit-rsvp", {
+                        body: {
+                            full_name: name.trim(),
+                            email: null,
+                            attendance: att,
+                            number_of_guests: att === "yes" ? count : 1,
+                            primary_meal: null,
+                            primary_dietary: null,
+                            companions: [],
+                            message: msg.trim() || null
+                        }
+                    });
+                    if (E) throw E;
+                    setDone(att)
+                } catch (E) {
+                    console.error("RSVP submission error:", E), setErr("Something went wrong, please try again.")
+                } finally {
+                    setBusy(!1)
+                }
+            };
+        return g.jsx("section", {
+            id: "rsvp",
+            className: "rsvp-section",
+            children: g.jsxs("div", {
+                className: "rsvp-wrap reveal",
+                children: [g.jsx("h2", {
+                    className: "font-script rsvp-title",
+                    children: "RSVP"
+                }), g.jsx("p", {
+                    className: "rsvp-sub",
+                    children: "Kindly let us know if you'll be celebrating with us"
+                }), done ? g.jsxs("div", {
+                    className: "rsvp-done",
+                    children: [g.jsx("div", {
+                        className: "rsvp-done-ico",
+                        children: done === "yes" ? "❤" : "✦"
+                    }), g.jsx("h3", {
+                        className: "font-script rsvp-done-title",
+                        children: done === "yes" ? "Thank you!" : "We'll miss you"
+                    }), g.jsx("p", {
+                        className: "rsvp-done-text",
+                        children: done === "yes" ? "We can't wait to celebrate with you on 18 December at Hilton Pyramids Golf." : "Thank you for letting us know. You'll be in our hearts on our special day."
+                    }), done === "yes" && g.jsx("button", {
+                        type: "button",
+                        onClick: addToCalendar,
+                        className: "card-link",
+                        style: {
+                            marginTop: "1.25rem"
+                        },
+                        children: "Add to calendar"
+                    })]
+                }) : g.jsxs("form", {
+                    onSubmit: submit,
+                    className: "rsvp-form",
+                    children: [g.jsxs("div", {
+                        className: "rsvp-field",
+                        children: [g.jsx("label", {
+                            htmlFor: "rsvp-name",
+                            className: "rsvp-label",
+                            children: "Your name"
+                        }), g.jsx("input", {
+                            id: "rsvp-name",
+                            className: "rsvp-input",
+                            value: name,
+                            maxLength: 100,
+                            autoComplete: "name",
+                            placeholder: "Full name",
+                            onChange: e => setName(e.target.value)
+                        })]
+                    }), g.jsxs("div", {
+                        className: "rsvp-field",
+                        children: [g.jsx("span", {
+                            className: "rsvp-label",
+                            children: "Will you attend?"
+                        }), g.jsxs("div", {
+                            className: "rsvp-choice",
+                            role: "radiogroup",
+                            children: [g.jsxs("button", {
+                                type: "button",
+                                role: "radio",
+                                "aria-checked": att === "yes",
+                                className: "rsvp-opt" + (att === "yes" ? " is-on" : ""),
+                                onClick: () => setAtt("yes"),
+                                children: [g.jsx("span", {
+                                    className: "rsvp-opt-ico",
+                                    children: "❤"
+                                }), "Joyfully accept"]
+                            }), g.jsxs("button", {
+                                type: "button",
+                                role: "radio",
+                                "aria-checked": att === "no",
+                                className: "rsvp-opt" + (att === "no" ? " is-on" : ""),
+                                onClick: () => setAtt("no"),
+                                children: [g.jsx("span", {
+                                    className: "rsvp-opt-ico",
+                                    children: "✉"
+                                }), "Regretfully decline"]
+                            })]
+                        })]
+                    }), g.jsx("div", {
+                        className: "rsvp-collapse" + (att === "yes" ? " is-open" : ""),
+                        children: g.jsx("div", {
+                            children: g.jsxs("div", {
+                                className: "rsvp-field",
+                                children: [g.jsx("span", {
+                                    className: "rsvp-label",
+                                    children: "Number of guests"
+                                }), g.jsxs("div", {
+                                    className: "rsvp-count",
+                                    children: [g.jsx("button", {
+                                        type: "button",
+                                        className: "rsvp-step",
+                                        "aria-label": "Fewer guests",
+                                        disabled: count <= 1,
+                                        onClick: () => setCount(Math.max(1, count - 1)),
+                                        children: "−"
+                                    }), g.jsx("span", {
+                                        className: "rsvp-num",
+                                        "aria-live": "polite",
+                                        children: count
+                                    }), g.jsx("button", {
+                                        type: "button",
+                                        className: "rsvp-step",
+                                        "aria-label": "More guests",
+                                        disabled: count >= 10,
+                                        onClick: () => setCount(Math.min(10, count + 1)),
+                                        children: "+"
+                                    })]
+                                }), g.jsx("p", {
+                                    className: "rsvp-hint",
+                                    children: "Including you · adults only"
+                                })]
+                            })
+                        })
+                    }), g.jsxs("div", {
+                        className: "rsvp-field",
+                        children: [g.jsx("label", {
+                            htmlFor: "rsvp-msg",
+                            className: "rsvp-label",
+                            children: "Message for the couple"
+                        }), g.jsx("textarea", {
+                            id: "rsvp-msg",
+                            className: "rsvp-input",
+                            value: msg,
+                            maxLength: 1e3,
+                            placeholder: "Share your wishes (optional)",
+                            onChange: e => setMsg(e.target.value)
+                        })]
+                    }), err && g.jsx("p", {
+                        className: "rsvp-error",
+                        role: "alert",
+                        children: err
+                    }), g.jsx("button", {
+                        type: "submit",
+                        className: "rsvp-send",
+                        disabled: busy,
+                        children: busy ? "Sending..." : "Send RSVP"
+                    })]
+                })]
+            })
+        })
+    },
     SA = () => {
         const {
             t: e
@@ -27443,7 +27739,7 @@ END:VCALENDAR`,
             }), r && g.jsx(TA, {
                 onContentReady: c,
                 onFadeComplete: u
-            }), g.jsx($T, {}), g.jsx(UT, {}), g.jsx(WeddingCountdown, {}), g.jsx(DressCode, {}), g.jsx("div", {
+            }), g.jsx($T, {}), g.jsx(UT, {}), g.jsx(WeddingCountdown, {}), g.jsx(DressCode, {}), g.jsx(SimpleRsvp, {}), g.jsx("div", {
                 className: "bg-wedding-cream flex items-center justify-center py-2 md:py-4",
                 children: g.jsx("img", {
                     src: FT,
