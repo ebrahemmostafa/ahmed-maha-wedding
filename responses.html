@@ -127,6 +127,16 @@
       font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 1.05rem; border-left: 3px solid var(--accent);
       white-space: pre-wrap; word-break: break-word;
     }
+    .row-foot { grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: .55rem }
+    .del {
+      display: inline-flex; align-items: center; gap: .35rem; padding: .4rem .85rem; border-radius: 999px;
+      font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--no);
+      border: 1px solid rgba(178,58,91,.3); background: #fff; transition: background .2s, color .2s;
+    }
+    .del svg { width: 14px; height: 14px }
+    .del:hover:not(:disabled) { background: var(--no); color: #fff }
+    .del:disabled { opacity: .6; cursor: default }
+    .row.gone { transition: opacity .35s, transform .35s; opacity: 0; transform: translateX(30px) }
     .empty { text-align: center; color: var(--muted); padding: 3rem 1rem; font-family: "Cormorant Garamond", serif; font-size: 1.3rem }
     .note { text-align: center; color: var(--muted); font-size: .7rem; margin-top: 2rem }
     .hidden { display: none !important }
@@ -230,12 +240,16 @@
     });
 
     async function fetchRows(code) {
+      return (await callFn({ passcode: code })).data || [];
+    }
+
+    async function callFn(payload) {
       let res;
       try {
         res = await fetch(FN_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json", apikey: ANON, Authorization: "Bearer " + ANON },
-          body: JSON.stringify({ passcode: code })
+          body: JSON.stringify(payload)
         });
       } catch {
         throw new Error("Couldn't reach the server. Check your connection, or the get-rsvps function isn't set up in Supabase yet.");
@@ -245,7 +259,7 @@
       if (res.status === 401) throw Object.assign(new Error("Wrong passcode"), { code: 401 });
       if (res.status === 404) throw new Error("The get-rsvps function isn't set up in Supabase yet.");
       if (!res.ok) throw new Error(body.error || ("Error " + res.status));
-      return body.data || [];
+      return body;
     }
 
     async function unlock(code, silent) {
@@ -309,11 +323,31 @@
           <div class="badge ${y ? "yes" : "no"}">${y ? `<b>${guestsOf(r)}</b>${guestsOf(r) === 1 ? "guest" : "guests"}` : "<b>&#10005;</b>declined"}</div>
           <div class="when">${esc(fmt(r.created_at))}</div>
           ${r.message ? `<div class="msg">${esc(r.message)}</div>` : ""}
+          <div class="row-foot"><button class="del" type="button" data-id="${esc(r.id)}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M10 11v6M14 11v6"/></svg>
+            Delete</button></div>
         </article>`;
       }).join("") : `<div class="empty">${rows.length ? "No matching responses" : "No responses yet"}</div>`;
 
       $("updated").textContent = "Last updated " + new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
     }
+
+    $("list").addEventListener("click", async e => {
+      const btn = e.target.closest(".del");
+      if (!btn) return;
+      const id = btn.dataset.id, r = rows.find(x => x.id === id);
+      if (!r || !confirm(`Delete the response from "${r.full_name}"?\nThis can't be undone.`)) return;
+      btn.disabled = true; btn.textContent = "Deleting...";
+      try {
+        await callFn({ passcode, action: "delete", id });
+        const card = btn.closest(".row");
+        card.classList.add("gone");
+        setTimeout(() => { rows = rows.filter(x => x.id !== id); render() }, 350);
+      } catch (err) {
+        alert("Couldn't delete: " + err.message);
+        btn.disabled = false; btn.textContent = "Delete";
+      }
+    });
 
     $("search").addEventListener("input", render);
     document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
@@ -326,7 +360,8 @@
       finally { b.disabled = false; b.textContent = "Refresh" }
     });
     $("csv").addEventListener("click", () => {
-      const q = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+      // prefix cells that Excel would treat as formulas
+      const q = v => { let s = String(v ?? ""); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"' };
       const lines = [["Name", "Attending", "Guests", "Message", "Submitted"].map(q).join(",")]
         .concat(rows.map(r => [r.full_name, r.attendance === "yes" ? "Yes" : "No", guestsOf(r), r.message, r.created_at].map(q).join(",")));
       const a = document.createElement("a");
