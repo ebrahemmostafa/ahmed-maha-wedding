@@ -27314,7 +27314,7 @@ END:VCALENDAR`,
         })
     },
     RSVP_URL = "https://cwcsbydzseldbjtadbbu.supabase.co",
-    RSVP_KEY = "",
+    RSVP_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3Y3NieWR6c2VsZGJqdGFkYmJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1MTY5NjYsImV4cCI6MjEwMTA5Mjk2Nn0.QWNqAihPZNB1IXNtmgStQ8k_hIuSto0u5cU7KVOER4g",
     SimpleRsvp = () => {
         const [name, setName] = w.useState(""),
             [att, setAtt] = w.useState(""),
