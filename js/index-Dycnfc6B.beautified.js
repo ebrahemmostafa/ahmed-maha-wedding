@@ -27313,6 +27313,8 @@ END:VCALENDAR`,
             })
         })
     },
+    RSVP_URL = "https://cwcsbydzseldbjtadbbu.supabase.co",
+    RSVP_KEY = "",
     SimpleRsvp = () => {
         const [name, setName] = w.useState(""),
             [att, setAtt] = w.useState(""),
@@ -27326,28 +27328,22 @@ END:VCALENDAR`,
                 if (!att) return setErr("Please let us know if you'll attend");
                 setBusy(!0);
                 try {
-                    const {
-                        error: E
-                    } = await bA.functions.invoke("submit-rsvp", {
-                        body: {
+                    const res = await fetch(RSVP_URL + "/rest/v1/ahmed_maha_rsvps", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            apikey: RSVP_KEY,
+                            Authorization: "Bearer " + RSVP_KEY,
+                            Prefer: "return=minimal"
+                        },
+                        body: JSON.stringify({
                             full_name: name.trim(),
-                            email: null,
                             attendance: att,
                             number_of_guests: att === "yes" ? count : 1,
-                            primary_meal: null,
-                            primary_dietary: null,
-                            companions: att === "yes" ? Array.from({
-                                length: count - 1
-                            }, (_, k) => ({
-                                type: "adult",
-                                full_name: "Guest " + (k + 2) + " (with " + name.trim() + ")",
-                                dietary: null,
-                                meal: "meat"
-                            })) : [],
                             message: msg.trim() || null
-                        }
+                        })
                     });
-                    if (E) throw E;
+                    if (!res.ok) throw new Error("HTTP " + res.status + " " + await res.text());
                     setDone(att)
                 } catch (E) {
                     console.error("RSVP submission error:", E), setErr("Something went wrong, please try again.")

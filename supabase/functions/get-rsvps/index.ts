@@ -1,5 +1,5 @@
 // Supabase Edge Function: get-rsvps
-// Returns all rows from rsvp_responses when the correct passcode is sent.
+// Returns all rows from ahmed_maha_rsvps when the correct passcode is sent.
 // With { action: "delete", id } it deletes that one response instead.
 // The passcode is NOT stored here: set it as a secret named ADMIN_PASSCODE
 // (Supabase dashboard -> Edge Functions -> Secrets).
@@ -54,14 +54,14 @@ Deno.serve(async (req) => {
   if (body.action === "delete") {
     const id = String(body.id ?? "");
     if (!/^[0-9a-f-]{36}$/i.test(id)) return json({ error: "Invalid id" }, 400);
-    const { error: delError } = await supabase.from("rsvp_responses").delete().eq("id", id);
+    const { error: delError } = await supabase.from("ahmed_maha_rsvps").delete().eq("id", id);
     if (delError) return json({ error: delError.message }, 500);
     return json({ deleted: id });
   }
 
   const { data, error } = await supabase
-    .from("rsvp_responses")
-    .select("id, full_name, attendance, number_of_guests, message, companions, created_at")
+    .from("ahmed_maha_rsvps")
+    .select("id, full_name, attendance, number_of_guests, message, created_at")
     .order("created_at", { ascending: false });
 
   if (error) return json({ error: error.message }, 500);
