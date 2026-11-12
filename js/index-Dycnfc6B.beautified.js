@@ -15678,18 +15678,70 @@ Error generating stack: ` + o.message + `
                 }
             }
         },
+        LT_AR = {
+            ...LT.en,
+            hero: {
+                ...LT.en.hero,
+                gettingMarried: "نتشرف بدعوتكم لحفل زفاف"
+            },
+            story: {
+                ...LT.en.story,
+                line1: "عائلتان، قصتان، وبداية واحدة.",
+                line2: "يسعدنا جداً أن تشاركونا فرحتنا",
+                dateLabel: "التاريخ",
+                timeLabel: "الوقت",
+                time: "٤:٠٠ مساءً",
+                locationLabel: "المكان",
+                openMap: "افتح الخريطة"
+            }
+        },
+        initLang = () => {
+            try {
+                const q = new URLSearchParams(location.search).get("lang");
+                if (q === "ar" || q === "en") return q;
+                const v = localStorage.getItem("am-lang");
+                if (v === "ar" || v === "en") return v
+            } catch {}
+            return "en"
+        },
+        useT = () => {
+            const {
+                language: l
+            } = Mr();
+            return (e, a) => l === "ar" ? a : e
+        },
+        LangToggle = () => {
+            const {
+                language: l,
+                setLanguage: st
+            } = Mr();
+            return g.jsx("button", {
+                type: "button",
+                className: "lang-toggle",
+                onClick: () => st(l === "ar" ? "en" : "ar"),
+                "aria-label": l === "ar" ? "Switch to English" : "التبديل إلى العربية",
+                children: l === "ar" ? "English" : "عربي"
+            })
+        },
         q0 = w.createContext(void 0),
         DT = ({
             children: e
         }) => {
-            const [t, r] = w.useState("en"), n = s => {
+            const [t, r] = w.useState(initLang), n = s => {
                 r(s)
             };
+            w.useEffect(() => {
+                const h = document.documentElement;
+                h.lang = t, h.dir = t === "ar" ? "rtl" : "ltr";
+                try {
+                    localStorage.setItem("am-lang", t)
+                } catch {}
+            }, [t]);
             return g.jsx(q0.Provider, {
                 value: {
                     language: t,
                     setLanguage: n,
-                    t: LT[t]
+                    t: t === "ar" ? LT_AR : LT.en
                 },
                 children: e
             })
@@ -15703,6 +15755,7 @@ Error generating stack: ` + o.message + `
         Pn = null;
     const $c = .3,
         $T = () => {
+            const T = useT();
             const [e, t] = w.useState(!1), r = w.useRef(null), n = w.useRef(null), {
                 t: s
             } = Mr(), o = (a, l = 400) => {
@@ -15790,13 +15843,16 @@ Error generating stack: ` + o.message + `
                         children: s.hero.gettingMarried
                     }), g.jsxs("h1", {
                         className: "font-script mb-2 hero-names",
-                        children: [g.jsx("span", {
+                        children: T([g.jsx("span", {
                             className: "cap-a",
                             children: "A"
-                        }), "hmed ", g.jsx("span", {
+                        }, "a"), "hmed ", g.jsx("span", {
                             className: "mx-2",
                             children: "&"
-                        }), " Maha"]
+                        }, "amp"), " Maha"], ["أحمد", g.jsx("span", {
+                            className: "mx-2",
+                            children: "&"
+                        }, "amp"), "مها"])
                     }), g.jsxs("div", {
                         className: "hero-divider",
                         children: [g.jsx("span", {
@@ -15818,7 +15874,7 @@ Error generating stack: ` + o.message + `
                     },
                     children: [g.jsx("p", {
                         className: "hero-scroll",
-                        children: "Scroll down"
+                        children: T("Scroll down", "مرر للأسفل")
                     }), g.jsx("div", {
                         className: "mt-4 flex justify-center",
                         children: g.jsx("svg", {
@@ -15885,6 +15941,7 @@ Error generating stack: ` + o.message + `
             })), a.download = "ahmed-maha-wedding.ics", document.body.appendChild(a), a.click(), document.body.removeChild(a)
         },
         UT = () => {
+            const T = useT();
             const {
                 t: i
             } = Mr();
@@ -15928,15 +15985,15 @@ Error generating stack: ` + o.message + `
                                 children: [g.jsx("span", {}), g.jsx("span", {})]
                             }), g.jsx("div", {
                                 className: "cal-top",
-                                children: "December"
+                                children: T("December", "ديسمبر")
                             }), g.jsxs("div", {
                                 className: "cal-body",
                                 children: [g.jsx("div", {
                                     className: "cal-day",
-                                    children: "18"
+                                    children: T("18", "١٨")
                                 }), g.jsx("div", {
                                     className: "cal-week",
-                                    children: "Friday · 2026"
+                                    children: T("Friday · 2026", "الجمعة · ٢٠٢٦")
                                 })]
                             }), g.jsxs("button", {
                                 type: "button",
@@ -15945,7 +16002,7 @@ Error generating stack: ` + o.message + `
                                 children: [g.jsx(Ico, {
                                     className: "card-link-ico",
                                     d: ["M8 2v4", "M16 2v4", "M3 10h18", "M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z", "M12 14v4", "M10 16h4"]
-                                }), "Add to calendar"]
+                                }), T("Add to calendar", "أضف إلى التقويم")]
                             })]
                         }), g.jsxs("div", {
                             className: "info-card time-card reveal",
@@ -15974,7 +16031,7 @@ Error generating stack: ` + o.message + `
                                 children: i.story.time
                             }), g.jsx("div", {
                                 className: "card-note",
-                                children: "Friday afternoon"
+                                children: T("Friday afternoon", "عصر يوم الجمعة")
                             })]
                         })]
                     }), g.jsxs("div", {
@@ -16002,13 +16059,13 @@ Error generating stack: ` + o.message + `
                                 children: i.story.locationLabel
                             }), g.jsx("div", {
                                 className: "venue-name",
-                                children: "Hilton Pyramids Golf"
+                                children: T("Hilton Pyramids Golf", "هيلتون بيراميدز جولف")
                             }), g.jsxs("div", {
                                 className: "venue-sub",
                                 children: [g.jsx("span", {
                                     className: "leaf",
                                     children: "❦"
-                                }), " The Greenery ", g.jsx("span", {
+                                }), T(" The Greenery ", " ذا جرينري "), g.jsx("span", {
                                     className: "leaf leaf-flip",
                                     children: "❦"
                                 })]
@@ -16028,6 +16085,7 @@ Error generating stack: ` + o.message + `
             })
         },
         WeddingCountdown = () => {
+            const T = useT();
             const target = new Date("2026-12-18T16:00:00+02:00").getTime(),
                 calc = () => Math.max(0, target - Date.now()),
                 [e, t] = w.useState(calc);
@@ -16036,10 +16094,10 @@ Error generating stack: ` + o.message + `
                 return () => clearInterval(r)
             }, []);
             const units = [
-                ["Days", Math.floor(e / 864e5)],
-                ["Hours", Math.floor(e / 36e5) % 24],
-                ["Minutes", Math.floor(e / 6e4) % 60],
-                ["Seconds", Math.floor(e / 1e3) % 60]
+                [T("Days", "أيام"), Math.floor(e / 864e5)],
+                [T("Hours", "ساعات"), Math.floor(e / 36e5) % 24],
+                [T("Minutes", "دقائق"), Math.floor(e / 6e4) % 60],
+                [T("Seconds", "ثوانٍ"), Math.floor(e / 1e3) % 60]
             ];
             return g.jsx("section", {
                 id: "countdown",
@@ -16048,10 +16106,10 @@ Error generating stack: ` + o.message + `
                     className: "countdown-wrap",
                     children: [g.jsx("h2", {
                         className: "font-script countdown-title",
-                        children: "Countdown"
+                        children: T("Countdown", "العد التنازلي")
                     }), g.jsx("p", {
                         className: "countdown-sub",
-                        children: e > 0 ? "Until forever begins" : "Today is the day!"
+                        children: e > 0 ? T("Until forever begins", "حتى تبدأ حكايتنا") : T("Today is the day!", "اليوم هو اليوم الموعود!")
                     }), g.jsx("div", {
                         className: "countdown-grid",
                         children: units.map(([n, v]) => g.jsxs("div", {
@@ -16069,14 +16127,15 @@ Error generating stack: ` + o.message + `
             })
         },
         DressCode = () => {
+            const T = useT();
             const palette = [
-                ["Deep Sage Green", "#2F5A3F"],
-                ["Sage Green", "#7FA97C"],
-                ["Emerald Green", "#0E7A4D"],
-                ["Fuchsia Pink", "#D63384"],
-                ["Rose Pink", "#F07BA7"],
-                ["Blush Pink", "#F7C8D6"],
-                ["Soft Blush", "#FBE3E8"]
+                ["Deep Sage Green", "#2F5A3F", "أخضر زيتي غامق"],
+                ["Sage Green", "#7FA97C", "أخضر زيتي"],
+                ["Emerald Green", "#0E7A4D", "أخضر زمردي"],
+                ["Fuchsia Pink", "#D63384", "فوشيا"],
+                ["Rose Pink", "#F07BA7", "وردي"],
+                ["Blush Pink", "#F7C8D6", "بينك فاتح"],
+                ["Soft Blush", "#FBE3E8", "وردي ناعم"]
             ];
             return g.jsx("section", {
                 id: "dress-code",
@@ -16085,21 +16144,21 @@ Error generating stack: ` + o.message + `
                     className: "dress-wrap",
                     children: [g.jsx("h2", {
                         className: "font-script dress-title",
-                        children: "Dress Code"
+                        children: T("Dress Code", "قواعد اللباس")
                     }), g.jsx("p", {
                         className: "dress-sub",
-                        children: "We'd love for you to dress in our garden palette"
+                        children: T("We'd love for you to dress in our garden palette", "يسعدنا أن ترتدوا ألوان حديقتنا")
                     }), g.jsxs("div", {
                         className: "dress-card reveal",
                         children: [g.jsx("p", {
                             className: "dress-who",
-                            children: "Ladies"
+                            children: T("Ladies", "السيدات")
                         }), g.jsx("p", {
                             className: "dress-desc",
-                            children: "Gowns in shades of green and pink"
+                            children: T("Gowns in shades of green and pink", "فساتين بدرجات الأخضر والوردي")
                         }), g.jsx("div", {
                             className: "dress-swatches",
-                            children: palette.map(([n, c]) => g.jsxs("div", {
+                            children: palette.map(([n, c, ar]) => g.jsxs("div", {
                                 className: "dress-swatch swatch-pop",
                                 children: [g.jsx("span", {
                                     className: "dress-dot",
@@ -16108,7 +16167,7 @@ Error generating stack: ` + o.message + `
                                     }
                                 }), g.jsx("span", {
                                     className: "dress-name",
-                                    children: n
+                                    children: T(n, ar)
                                 })]
                             }, n))
                         })]
@@ -16116,10 +16175,10 @@ Error generating stack: ` + o.message + `
                         className: "dress-card reveal",
                         children: [g.jsx("p", {
                             className: "dress-who",
-                            children: "Gentlemen"
+                            children: T("Gentlemen", "السادة")
                         }), g.jsx("p", {
                             className: "dress-desc",
-                            children: "Black suits"
+                            children: T("Black suits", "بدل سوداء")
                         }), g.jsx("div", {
                             className: "dress-swatches",
                             children: g.jsxs("div", {
@@ -16131,7 +16190,7 @@ Error generating stack: ` + o.message + `
                                     }
                                 }), g.jsx("span", {
                                     className: "dress-name",
-                                    children: "Black"
+                                    children: T("Black", "أسود")
                                 })]
                             })
                         })]
@@ -16142,10 +16201,10 @@ Error generating stack: ` + o.message + `
                             children: "✦"
                         }), g.jsx("p", {
                             className: "adults-title",
-                            children: "Adults Only Celebration"
+                            children: T("Adults Only Celebration", "حفل للكبار فقط")
                         }), g.jsx("p", {
                             className: "adults-desc",
-                            children: "We love your little ones, but kindly ask that our celebration be adults only."
+                            children: T("We love your little ones, but kindly ask that our celebration be adults only.", "نحب أطفالكم الصغار، ولكن نرجو أن يقتصر حفلنا على الكبار فقط.")
                         })]
                     })]
                 })
@@ -27316,6 +27375,7 @@ END:VCALENDAR`,
     RSVP_URL = "https://cwcsbydzseldbjtadbbu.supabase.co",
     RSVP_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3Y3NieWR6c2VsZGJqdGFkYmJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1MTY5NjYsImV4cCI6MjEwMTA5Mjk2Nn0.QWNqAihPZNB1IXNtmgStQ8k_hIuSto0u5cU7KVOER4g",
     SimpleRsvp = () => {
+            const T = useT();
         const [name, setName] = w.useState(""),
             [att, setAtt] = w.useState(""),
             [count, setCount] = w.useState(1),
@@ -27324,8 +27384,8 @@ END:VCALENDAR`,
             [err, setErr] = w.useState(""),
             [done, setDone] = w.useState(""),
             submit = async ev => {
-                if (ev.preventDefault(), setErr(""), !name.trim()) return setErr("Please write your name");
-                if (!att) return setErr("Please let us know if you'll attend");
+                if (ev.preventDefault(), setErr(""), !name.trim()) return setErr(T("Please write your name", "من فضلك اكتب اسمك"));
+                if (!att) return setErr(T("Please let us know if you'll attend", "من فضلك أخبرنا إن كنت ستحضر"));
                 setBusy(!0);
                 try {
                     const res = await fetch(RSVP_URL + "/rest/v1/ahmed_maha_rsvps", {
@@ -27346,7 +27406,7 @@ END:VCALENDAR`,
                     if (!res.ok) throw new Error("HTTP " + res.status + " " + await res.text());
                     setDone(att)
                 } catch (E) {
-                    console.error("RSVP submission error:", E), setErr("Something went wrong, please try again.")
+                    console.error("RSVP submission error:", E), setErr(T("Something went wrong, please try again.", "حدث خطأ، من فضلك حاول مرة أخرى."))
                 } finally {
                     setBusy(!1)
                 }
@@ -27358,10 +27418,10 @@ END:VCALENDAR`,
                 className: "rsvp-wrap reveal",
                 children: [g.jsx("h2", {
                     className: "font-script rsvp-title",
-                    children: "RSVP"
+                    children: T("RSVP", "تأكيد الحضور")
                 }), g.jsx("p", {
                     className: "rsvp-sub",
-                    children: "Kindly let us know if you'll be celebrating with us"
+                    children: T("Kindly let us know if you'll be celebrating with us", "نرجو إعلامنا بحضوركم لمشاركتنا الفرحة")
                 }), done ? g.jsxs("div", {
                     className: "rsvp-done",
                     children: [g.jsx("div", {
@@ -27369,10 +27429,10 @@ END:VCALENDAR`,
                         children: done === "yes" ? "❤" : "✦"
                     }), g.jsx("h3", {
                         className: "font-script rsvp-done-title",
-                        children: done === "yes" ? "Thank you!" : "We'll miss you"
+                        children: done === "yes" ? T("Thank you!", "شكراً لكم!") : T("We'll miss you", "سنفتقدكم")
                     }), g.jsx("p", {
                         className: "rsvp-done-text",
-                        children: done === "yes" ? "We can't wait to celebrate with you on 18 December at Hilton Pyramids Golf." : "Thank you for letting us know. You'll be in our hearts on our special day."
+                        children: done === "yes" ? T("We can't wait to celebrate with you on 18 December at Hilton Pyramids Golf.", "ننتظر بفارغ الصبر الاحتفال معكم يوم ١٨ ديسمبر في هيلتون بيراميدز جولف.") : T("Thank you for letting us know. You'll be in our hearts on our special day.", "شكراً لإبلاغنا، ستكونون في قلوبنا في يومنا المميز.")
                     }), done === "yes" && g.jsx("button", {
                         type: "button",
                         onClick: addToCalendar,
@@ -27380,7 +27440,7 @@ END:VCALENDAR`,
                         style: {
                             marginTop: "1.25rem"
                         },
-                        children: "Add to calendar"
+                        children: T("Add to calendar", "أضف إلى التقويم")
                     })]
                 }) : g.jsxs("form", {
                     onSubmit: submit,
@@ -27390,21 +27450,21 @@ END:VCALENDAR`,
                         children: [g.jsx("label", {
                             htmlFor: "rsvp-name",
                             className: "rsvp-label",
-                            children: "Your name"
+                            children: T("Your name", "اسمك")
                         }), g.jsx("input", {
                             id: "rsvp-name",
                             className: "rsvp-input",
                             value: name,
                             maxLength: 100,
                             autoComplete: "name",
-                            placeholder: "Full name",
+                            placeholder: T("Full name", "الاسم بالكامل"),
                             onChange: e => setName(e.target.value)
                         })]
                     }), g.jsxs("div", {
                         className: "rsvp-field",
                         children: [g.jsx("span", {
                             className: "rsvp-label",
-                            children: "Will you attend?"
+                            children: T("Will you attend?", "هل ستحضر؟")
                         }), g.jsxs("div", {
                             className: "rsvp-choice",
                             role: "radiogroup",
@@ -27417,7 +27477,7 @@ END:VCALENDAR`,
                                 children: [g.jsx("span", {
                                     className: "rsvp-opt-ico",
                                     children: "❤"
-                                }), "Joyfully accept"]
+                                }), T("Joyfully accept", "بكل سرور سأحضر")]
                             }), g.jsxs("button", {
                                 type: "button",
                                 role: "radio",
@@ -27427,7 +27487,7 @@ END:VCALENDAR`,
                                 children: [g.jsx("span", {
                                     className: "rsvp-opt-ico",
                                     children: "✉"
-                                }), "Regretfully decline"]
+                                }), T("Regretfully decline", "أعتذر عن الحضور")]
                             })]
                         })]
                     }), g.jsx("div", {
@@ -27437,13 +27497,13 @@ END:VCALENDAR`,
                                 className: "rsvp-field",
                                 children: [g.jsx("span", {
                                     className: "rsvp-label",
-                                    children: "Number of guests"
+                                    children: T("Number of guests", "عدد الحضور")
                                 }), g.jsxs("div", {
                                     className: "rsvp-count",
                                     children: [g.jsx("button", {
                                         type: "button",
                                         className: "rsvp-step",
-                                        "aria-label": "Fewer guests",
+                                        "aria-label": T("Fewer guests", "تقليل العدد"),
                                         disabled: count <= 1,
                                         onClick: () => setCount(Math.max(1, count - 1)),
                                         children: "−"
@@ -27454,14 +27514,14 @@ END:VCALENDAR`,
                                     }), g.jsx("button", {
                                         type: "button",
                                         className: "rsvp-step",
-                                        "aria-label": "More guests",
+                                        "aria-label": T("More guests", "زيادة العدد"),
                                         disabled: count >= 10,
                                         onClick: () => setCount(Math.min(10, count + 1)),
                                         children: "+"
                                     })]
                                 }), g.jsx("p", {
                                     className: "rsvp-hint",
-                                    children: "Including you · adults only"
+                                    children: T("Including you · adults only", "شاملاً أنت · للكبار فقط")
                                 })]
                             })
                         })
@@ -27470,13 +27530,13 @@ END:VCALENDAR`,
                         children: [g.jsx("label", {
                             htmlFor: "rsvp-msg",
                             className: "rsvp-label",
-                            children: "Message for the couple"
+                            children: T("Message for the couple", "رسالة للعروسين")
                         }), g.jsx("textarea", {
                             id: "rsvp-msg",
                             className: "rsvp-input",
                             value: msg,
                             maxLength: 1e3,
-                            placeholder: "Share your wishes (optional)",
+                            placeholder: T("Share your wishes (optional)", "شاركنا تمنياتك (اختياري)"),
                             onChange: e => setMsg(e.target.value)
                         })]
                     }), err && g.jsx("p", {
@@ -27487,7 +27547,7 @@ END:VCALENDAR`,
                         type: "submit",
                         className: "rsvp-send",
                         disabled: busy,
-                        children: busy ? "Sending..." : "Send RSVP"
+                        children: busy ? T("Sending...", "جارٍ الإرسال...") : T("Send RSVP", "إرسال")
                     })]
                 })]
             })
@@ -27593,6 +27653,7 @@ END:VCALENDAR`,
         })
     },
     EA = () => {
+            const T = useT();
         const {
             t: e
         } = Mr();
@@ -27602,20 +27663,20 @@ END:VCALENDAR`,
                 className: "container mx-auto px-4 text-center",
                 children: [g.jsx("h2", {
                     className: "font-script text-4xl mb-4 text-wedding-gold",
-                    children: [g.jsx("span", {
+                    children: T([g.jsx("span", {
                         className: "cap-a",
                         children: "A"
-                    }), "hmed & Maha"]
+                    }, "a"), "hmed & Maha"], "أحمد & مها")
                 }), g.jsx("p", {
                     className: "text-wedding-gold/60 mb-6",
-                    children: "18 December 2026"
+                    children: T("18 December 2026", "١٨ ديسمبر ٢٠٢٦")
                 }), g.jsx("div", {
                     className: "mt-8 pt-8 border-t border-wedding-gold/20 text-wedding-gold/40 text-xs",
                     children: [g.jsx("p", {
                         children: "#AhmedAndMaha2026"
                     }), g.jsxs("p", {
                         className: "mt-4 text-sm text-wedding-gold/70",
-                        children: ["Made with love by ", g.jsx("a", {
+                        children: [T("Made with love by ", "صُنع بحب بواسطة "), g.jsx("a", {
                             href: "https://ajwa2-collection.vercel.app/",
                             target: "_blank",
                             rel: "noopener noreferrer",
@@ -27630,6 +27691,7 @@ END:VCALENDAR`,
     CA = ({
         onComplete: e
     }) => {
+        const T = useT();
         const [t, r] = w.useState(!1), [n, s] = w.useState(!1), o = w.useRef(null), i = w.useRef(!1), a = () => {
             i.current || (i.current = !0, r(!0), setTimeout(() => {
                 e()
@@ -27674,7 +27736,7 @@ END:VCALENDAR`,
                 onEnded: a
             }), g.jsx("p", {
                 className: `intro-hint ${hint&&!n?"intro-hint-show":""}`,
-                children: "Click to open"
+                children: T("Click to open", "اضغط للفتح")
             })]
         })
     },
@@ -27737,7 +27799,7 @@ END:VCALENDAR`,
         }, []);
         return g.jsxs("div", {
             className: "min-h-screen",
-            children: [e && g.jsx(CA, {
+            children: [g.jsx(LangToggle, {}), e && g.jsx(CA, {
                 onComplete: () => t(!1)
             }), r && g.jsx(TA, {
                 onContentReady: c,

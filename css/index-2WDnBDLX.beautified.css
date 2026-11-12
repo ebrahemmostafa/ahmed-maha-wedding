@@ -5282,3 +5282,102 @@ textarea.rsvp-input {
     .petal, .venue-photo img, .venue-pin, .map-btn::after, .rsvp-send::after, .story-ornament i, .rsvp-done-ico { animation: none }
     .reveal-in .cal-day, .reveal-in .clock-hour, .reveal-in .clock-min, .reveal-in .swatch-pop, .rsvp-done { animation: none }
 }
+
+/* ---------- language toggle ---------- */
+.lang-toggle {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 60;
+    padding: .45rem 1rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, .88);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    border: 1px solid hsl(var(--wedding-olive) / .25);
+    color: hsl(var(--wedding-olive));
+    font-family: Tajawal, Montserrat, sans-serif;
+    font-size: .85rem;
+    font-weight: 500;
+    box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .45);
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease
+}
+
+.lang-toggle:hover {
+    transform: translateY(-1px);
+    background: #fff
+}
+
+/* ---------- Arabic version ---------- */
+html[lang=ar] body {
+    font-family: Tajawal, sans-serif
+}
+
+/* letter-spacing breaks connected Arabic letters */
+html[lang=ar] body * {
+    letter-spacing: 0 !important
+}
+
+html[lang=ar] .font-script {
+    font-family: "Aref Ruqaa", "Amiri", serif !important;
+    font-weight: 700
+}
+
+html[lang=ar] .hero-names {
+    line-height: 1.5
+}
+
+html[lang=ar] .story-line1 {
+    font-size: 2.1rem;
+    line-height: 1.6
+}
+
+html[lang=ar] .countdown-title,
+html[lang=ar] .dress-title,
+html[lang=ar] .rsvp-title,
+html[lang=ar] .rsvp-done-title {
+    font-size: 2.4rem;
+    line-height: 1.5
+}
+
+html[lang=ar] .story-line2,
+html[lang=ar] .dress-sub,
+html[lang=ar] .dress-desc,
+html[lang=ar] .venue-name,
+html[lang=ar] .venue-sub,
+html[lang=ar] .time-value,
+html[lang=ar] .cal-day,
+html[lang=ar] .adults-title,
+html[lang=ar] .rsvp-opt,
+html[lang=ar] .rsvp-done-text,
+html[lang=ar] .rsvp-num {
+    font-family: Amiri, serif;
+    font-style: normal
+}
+
+html[lang=ar] .card-label,
+html[lang=ar] .cal-top,
+html[lang=ar] .cal-week,
+html[lang=ar] .dress-who,
+html[lang=ar] .dress-name,
+html[lang=ar] .rsvp-label,
+html[lang=ar] .countdown-label,
+html[lang=ar] .hero-scroll {
+    font-size: .8rem
+}
+
+html[lang=ar] .dress-name {
+    font-size: .68rem
+}
+
+.rsvp-form {
+    text-align: start
+}
+
+@media (min-width: 768px) {
+    html[lang=ar] .story-line1 { font-size: 2.8rem }
+    html[lang=ar] .countdown-title,
+    html[lang=ar] .dress-title,
+    html[lang=ar] .rsvp-title { font-size: 3rem }
+}
