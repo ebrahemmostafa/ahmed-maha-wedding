@@ -27310,30 +27310,6 @@ END:VCALENDAR`,
                 }), g.jsx("p", {
                     className: "text-wedding-gold/60 mb-6",
                     children: "18 December 2026"
-                }), g.jsxs("div", {
-                    className: "mt-8 space-y-4",
-                    children: [g.jsx("p", {
-                        className: "text-wedding-gold/70",
-                        children: "If you’re lost don’t hesitate to contact"
-                        }), g.jsxs("p", {
-                            children: [g.jsx("a", {
-                                href: "tel:+201019727198",
-                                className: "text-lg tracking-wider text-wedding-gold underline underline-offset-4",
-                                children: "0101 972 7198"
-                            }), g.jsx("span", {
-                                className: "block text-sm text-wedding-gold/70",
-                                children: "Brother of the bride"
-                            })]
-                        }), g.jsxs("p", {
-                            children: [g.jsx("a", {
-                                href: "tel:+201019556572",
-                                className: "text-lg tracking-wider text-wedding-gold underline underline-offset-4",
-                                children: "0101 955 6572"
-                            }), g.jsx("span", {
-                                className: "block text-sm text-wedding-gold/70",
-                                children: "Brother of the groom"
-                            })]
-                        })]
                 }), g.jsx("div", {
                     className: "mt-8 pt-8 border-t border-wedding-gold/20 text-wedding-gold/40 text-xs",
                     children: [g.jsx("p", {
