@@ -15517,19 +15517,19 @@ Error generating stack: ` + o.message + `
             en: {
                 hero: {
                     gettingMarried: "We're Getting Married",
-                    date: "22 November 2026",
+                    date: "18 December 2026",
                     confirmAttendance: "Confirm Attendance"
                 },
                 story: {
                     line1: "Two families, two stories, one beginning.",
                     line2: "We would be so happy to have you with us",
                     dateLabel: "Date",
-                    date: "Friday, 23 October 2026",
+                    date: "Friday, 18 December 2026",
                     timeLabel: "Time",
-                    time: "5:30 PM",
+                    time: "4:00 PM",
                     locationLabel: "Location",
-                    location: "The Grove, El Sherouk",
-                    mapUrl: "https://maps.app.goo.gl/apBpcmYAHKW3Y1vD6",
+                    location: "Hilton Pyramids Golf · The Greenery",
+                    mapUrl: "https://www.google.com/maps/dir//Hilton+Pyramids+Golf/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x145dc811b1314563:0xa99f95462bd1a126?sa=X&ved=1t:155782&hl=en-EG&ictx=111",
                     openMap: "Open in Maps"
                 },
                 program: {
@@ -15595,7 +15595,7 @@ Error generating stack: ` + o.message + `
                     thankYouDesc1: "We are so excited to know that you will be joining us on this very special day.",
                     thankYouDesc2: "Thank you for being part of our story.",
                     thankYouVenue: "We look forward to seeing you on November 22nd at Mairie du 19ème, Paris.",
-                    thankYouSignature: "Ahmad & Shahd",
+                    thankYouSignature: "Ahmed & Maha",
                     addCalendar: "Add to calendar",
                     cantAttendNote: "If for any reason you cannot attend, we would greatly appreciate it if you let us know in advance. You can contact us via WhatsApp.",
                     declineTitle: "We'll miss you",
@@ -15793,10 +15793,10 @@ Error generating stack: ` + o.message + `
                         children: [g.jsx("span", {
                             className: "cap-a",
                             children: "A"
-                        }), "hmad ", g.jsx("span", {
+                        }), "hmed ", g.jsx("span", {
                             className: "mx-2",
                             children: "&"
-                        }), " Shahd"]
+                        }), " Maha"]
                     }), g.jsxs("div", {
                         className: "hero-divider",
                         children: [g.jsx("span", {
@@ -15909,7 +15909,7 @@ Error generating stack: ` + o.message + `
             })
         },
         WeddingCountdown = () => {
-            const target = new Date("2026-10-23T17:30:00+03:00").getTime(),
+            const target = new Date("2026-12-18T16:00:00+02:00").getTime(),
                 calc = () => Math.max(0, target - Date.now()),
                 [e, t] = w.useState(calc);
             w.useEffect(() => {
@@ -15945,6 +15945,89 @@ Error generating stack: ` + o.message + `
                                 children: n
                             })]
                         }, n))
+                    })]
+                })
+            })
+        },
+        DressCode = () => {
+            const palette = [
+                ["Deep Sage Green", "#2F5A3F"],
+                ["Sage Green", "#7FA97C"],
+                ["Emerald Green", "#0E7A4D"],
+                ["Fuchsia Pink", "#D63384"],
+                ["Rose Pink", "#F07BA7"],
+                ["Blush Pink", "#F7C8D6"],
+                ["Soft Blush", "#FBE3E8"]
+            ];
+            return g.jsx("section", {
+                id: "dress-code",
+                className: "dress-section",
+                children: g.jsxs("div", {
+                    className: "dress-wrap",
+                    children: [g.jsx("h2", {
+                        className: "font-script dress-title",
+                        children: "Dress Code"
+                    }), g.jsx("p", {
+                        className: "dress-sub",
+                        children: "We'd love for you to dress in our garden palette"
+                    }), g.jsxs("div", {
+                        className: "dress-card",
+                        children: [g.jsx("p", {
+                            className: "dress-who",
+                            children: "Ladies"
+                        }), g.jsx("p", {
+                            className: "dress-desc",
+                            children: "Gowns in shades of green and pink"
+                        }), g.jsx("div", {
+                            className: "dress-swatches",
+                            children: palette.map(([n, c]) => g.jsxs("div", {
+                                className: "dress-swatch",
+                                children: [g.jsx("span", {
+                                    className: "dress-dot",
+                                    style: {
+                                        backgroundColor: c
+                                    }
+                                }), g.jsx("span", {
+                                    className: "dress-name",
+                                    children: n
+                                })]
+                            }, n))
+                        })]
+                    }), g.jsxs("div", {
+                        className: "dress-card",
+                        children: [g.jsx("p", {
+                            className: "dress-who",
+                            children: "Gentlemen"
+                        }), g.jsx("p", {
+                            className: "dress-desc",
+                            children: "Black suits"
+                        }), g.jsx("div", {
+                            className: "dress-swatches",
+                            children: g.jsxs("div", {
+                                className: "dress-swatch",
+                                children: [g.jsx("span", {
+                                    className: "dress-dot",
+                                    style: {
+                                        backgroundColor: "#111111"
+                                    }
+                                }), g.jsx("span", {
+                                    className: "dress-name",
+                                    children: "Black"
+                                })]
+                            })
+                        })]
+                    }), g.jsxs("div", {
+                        className: "adults-note",
+                        children: [g.jsx("span", {
+                            className: "adults-star",
+                            children: "✦"
+                        }), g.jsx("p", {
+                            className: "adults-title",
+                            children: "Adults Only Celebration"
+                        }), g.jsx("p", {
+                            className: "adults-desc",
+                            children: "We love your little ones, but kindly ask that our celebration be adults only."
+                        })]
                     })]
                 })
             })
@@ -27223,10 +27306,10 @@ END:VCALENDAR`,
                     children: [g.jsx("span", {
                         className: "cap-a",
                         children: "A"
-                    }), "hmad & Shahd"]
+                    }), "hmed & Maha"]
                 }), g.jsx("p", {
                     className: "text-wedding-gold/60 mb-6",
-                    children: "23 October 2026"
+                    children: "18 December 2026"
                 }), g.jsxs("div", {
                     className: "mt-8 space-y-4",
                     children: [g.jsx("p", {
@@ -27254,7 +27337,7 @@ END:VCALENDAR`,
                 }), g.jsx("div", {
                     className: "mt-8 pt-8 border-t border-wedding-gold/20 text-wedding-gold/40 text-xs",
                     children: [g.jsx("p", {
-                        children: "#AhmadAndShahd2026"
+                        children: "#AhmedAndMaha2026"
                     }), g.jsxs("p", {
                         className: "mt-4 text-sm text-wedding-gold/70",
                         children: ["Made with love by ", g.jsx("a", {
@@ -27384,7 +27467,7 @@ END:VCALENDAR`,
             }), r && g.jsx(TA, {
                 onContentReady: c,
                 onFadeComplete: u
-            }), g.jsx($T, {}), g.jsx(UT, {}), g.jsx(WeddingCountdown, {}), g.jsx("div", {
+            }), g.jsx($T, {}), g.jsx(UT, {}), g.jsx(WeddingCountdown, {}), g.jsx(DressCode, {}), g.jsx("div", {
                 className: "bg-wedding-cream flex items-center justify-center py-2 md:py-4",
                 children: g.jsx("img", {
                     src: FT,
